@@ -1,0 +1,41 @@
+{
+  "name": "qraphql-fullstack-starter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Charlieeeee",
+  "license": "MIT",
+  "scripts": {
+    "test": "jest",
+    "eslint-server": "eslint ./server",
+    "start": "node ./dist/index.js",
+    "dev": "nodemon --exec babel-node ./server/index.js",
+    "prod": "yarn clean && cross-env NODE_ENV=production yarn build && yarn start",
+    "clean": "rimraf dist",
+    "build": "babel ./server --out-dir dist",
+    "docker:build": "yarn clean && cross-env NODE_ENV=production yarn build && docker build -t $npm_package_name:$npm_package_version .",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.9.15",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.17.0",
+    "express": "^4.17.1",
+    "graphql": "^14.5.8"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/plugin-proposal-pipeline-operator": "^7.5.0",
+    "@babel/polyfill": "^7.4.4",
+    "@babel/preset-env": "^7.7.7",
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
+    "nodemon": "^2.0.2",
+    "rimraf": "^3.0.0"
+  }
+}
