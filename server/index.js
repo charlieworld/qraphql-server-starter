@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import { ApolloServer, gql, PubSub } from 'apollo-server-express'
 import express from 'express'
 import { createServer } from 'http'
