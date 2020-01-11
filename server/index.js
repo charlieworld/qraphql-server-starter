@@ -3,6 +3,8 @@ import { ApolloServer, gql, PubSub } from 'apollo-server-express'
 import express from 'express'
 import { createServer } from 'http'
 
+require('dotenv').config()
+
 const data = [
   { title: 'FP in JavaScript', price: 100 },
   { title: 'RxJS in Action', price: 200 },
@@ -70,7 +72,7 @@ apollo.applyMiddleware({ app, path: '/api' })
 const http = createServer(app)
 apollo.installSubscriptionHandlers(http)
 
-const port = 4000
+const port = process.env.SERVER_PORT
 
 http.listen({ port }, () => {
   /* eslint-disable */
