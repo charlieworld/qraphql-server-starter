@@ -31,6 +31,7 @@
     "express": "^4.17.1",
     "graphql": "^14.5.8",
     "knex": "^0.20.7",
+    "lodash": "^4.17.15",
     "pg": "^7.17.0"
   },
   "devDependencies": {
