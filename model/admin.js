@@ -30,9 +30,11 @@ const addAdmin = (name, key) => {
 }
 
 const getAdminByID = (id) => find(admins, ['id', id])
+const getAdminByName = (name) => find(admins, ['name', name])
 
 module.exports = {
   getAdmins,
   addAdmin,
   getAdminByID,
+  getAdminByName,
 }
