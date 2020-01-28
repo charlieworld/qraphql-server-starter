@@ -2,16 +2,20 @@ import '@babel/polyfill'
 import { ApolloServer } from 'apollo-server-express'
 import express from 'express'
 import { createServer } from 'http'
-import { typeDefs, resolvers } from './schema'
-import { adminModel } from './model'
+import schema from './schema'
+import model from './model'
+
+const { typeDefs, resolvers } = schema
+const { adminModel, authModel } = model
 
 require('dotenv').config()
 
 const apollo = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
+  context: async () => {
     const context = {
+      authModel,
       adminModel,
     }
     return context

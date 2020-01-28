@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server-express'
+import k from '../tools/key'
 
 const typeDefs = gql`
   type Query {
@@ -6,7 +7,12 @@ const typeDefs = gql`
     admin(id: ID!): Admin
   }
   type Mutation {
+    login(admin: addAdminInput!): Token
     addAdmin(admin: addAdminInput!): Admin
+  }
+
+  type Token {
+    token: String!
   }
 
   type Admin {
@@ -27,10 +33,8 @@ const resolvers = {
     admin: (root, args, context) => context.adminModel.getAdminByID(args.id),
   },
   Mutation: {
-    addAdmin: (parent, { admin }, context) => {
-      const { name, key } = admin
-      return context.adminModel.addAdmin(name, key)
-    },
+    login: async (parent, { admin }, context) => context.authModel.login(admin),
+    addAdmin: async (parent, { admin }, context) => context.authModel.signUp(admin),
   },
 }
 
