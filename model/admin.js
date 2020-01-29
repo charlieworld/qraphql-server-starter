@@ -1,5 +1,5 @@
-
 import { find } from 'lodash'
+import db from '../tools/db'
 
 const admins = [
   {
@@ -16,7 +16,7 @@ const admins = [
   },
 ]
 
-const getAdmins = () => admins
+const getAdmins = () => db.select('admin')
 const addAdmin = (name, key) => {
   admins.push({ id: admins.length, name, key })
   return admins[admins.length - 1]

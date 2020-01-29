@@ -11,6 +11,8 @@ const typeDefs = gql`
     addAdmin(admin: addAdminInput!): Admin
   }
 
+  scalar TimeStamp
+
   type Token {
     token: String!
   }
@@ -19,6 +21,7 @@ const typeDefs = gql`
     id: ID!
     name: String
     key: String
+    created_at: TimeStamp
   }
 
   input addAdminInput {
