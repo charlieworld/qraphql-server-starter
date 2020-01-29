@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 
 const forge = (userData) => jwt.sign({
-  AdminID: userData.id,
+  adminID: userData.id,
   name: userData.name,
 }, process.env.SECRET, {
   expiresIn: '1d',

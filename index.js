@@ -4,6 +4,7 @@ import express from 'express'
 import { createServer } from 'http'
 import schema from './schema'
 import model from './model'
+import t from './tools/token'
 
 const { typeDefs, resolvers } = schema
 const { adminModel, authModel } = model
@@ -13,10 +14,20 @@ require('dotenv').config()
 const apollo = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async () => {
+  context: async ({ req }) => {
+    const { token } = req.headers
     const context = {
       authModel,
       adminModel,
+      me: null,
+    }
+    if (token) {
+      try {
+        const me = await t.verify(token)
+        context.me = me
+      } catch (e) {
+        throw new Error('Your session expired. Sign in again.')
+      }
     }
     return context
   },

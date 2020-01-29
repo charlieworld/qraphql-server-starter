@@ -1,8 +1,8 @@
 import { gql } from 'apollo-server-express'
-import k from '../tools/key'
 
 const typeDefs = gql`
   type Query {
+    me: Admin
     admins: [Admin]
     admin(id: ID!): Admin
   }
@@ -29,6 +29,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
+    me: (root, args, context) => context.adminModel.getMe(context.me),
     admins: (root, args, context) => context.adminModel.getAdmins(),
     admin: (root, args, context) => context.adminModel.getAdminByID(args.id),
   },

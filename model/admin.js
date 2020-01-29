@@ -14,14 +14,7 @@ const admins = [
     key: 'admin2_key',
 
   },
-  {
-    id: '3',
-    name: 'admin3',
-    key: 'admin3_key',
-
-  },
 ]
-
 
 const getAdmins = () => admins
 const addAdmin = (name, key) => {
@@ -32,7 +25,13 @@ const addAdmin = (name, key) => {
 const getAdminByID = (id) => find(admins, ['id', id])
 const getAdminByName = (name) => find(admins, ['name', name])
 
+const getMe = (me) => {
+  if (!me) throw new Error('Login First !')
+  return getAdminByID(me.adminID)
+}
+
 module.exports = {
+  getMe,
   getAdmins,
   addAdmin,
   getAdminByID,

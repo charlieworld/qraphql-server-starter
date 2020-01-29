@@ -16,7 +16,7 @@ const signUp = async (user) => {
 const login = async (userInput) => {
   const { name, key } = userInput
   const user = admin.getAdminByName(name)
-  if (!user) throw new Error('Email Account Not Exists')
+  if (!user) throw new Error('Admin Not Exists')
   const passwordIsValid = await k.compare(key, user.key)
   if (!passwordIsValid) throw new Error('Wrong Password')
   return { token: token.forge(user) }
