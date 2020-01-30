@@ -1,4 +1,23 @@
 import { gql } from 'apollo-server-express'
+import { GraphQLScalarType, Kind } from 'graphql'
+
+const scalarTimeStamp = new GraphQLScalarType({
+  name: 'TimeStamp',
+  description: 'TimeStamp custom scalar type',
+  parseValue(value) {
+    return new Date(value) // value from the client
+  },
+  serialize(value) {
+    return value.getTime()
+  },
+  parseLiteral(ast) {
+    if (ast.kind === Kind.INT) {
+      return parseInt(ast.value, 10) // ast value is always in string format
+    }
+    return null
+  },
+})
+
 
 const typeDefs = gql`
   type Query {
@@ -21,7 +40,6 @@ const typeDefs = gql`
     id: ID!
     name: String
     key: String
-    created_at: TimeStamp
   }
 
   input addAdminInput {
@@ -31,6 +49,7 @@ const typeDefs = gql`
 `
 
 const resolvers = {
+  TimeStamp: scalarTimeStamp,
   Query: {
     me: (root, args, context) => context.adminModel.getMe(context.me),
     admins: (root, args, context) => context.adminModel.getAdmins(),

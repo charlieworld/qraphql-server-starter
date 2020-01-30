@@ -1,33 +1,28 @@
-import { find } from 'lodash'
 import db from '../tools/db'
+import uuid from '../tools/uuid'
 
-const admins = [
-  {
-    id: '1',
-    name: 'admin1',
-    key: 'admin1_key',
-
-  },
-  {
-    id: '2',
-    name: 'admin2',
-    key: 'admin2_key',
-
-  },
-]
-
-const getAdmins = () => db.select('admin')
-const addAdmin = (name, key) => {
-  admins.push({ id: admins.length, name, key })
-  return admins[admins.length - 1]
+const getAdmins = async () => {
+  const res = await db.select('admin')
+  return res
+}
+const addAdmin = async (name, key) => {
+  const res = await db.insert('admin', { id: uuid.generate('admin'), name, key })
+  return res
 }
 
-const getAdminByID = (id) => find(admins, ['id', id])
-const getAdminByName = (name) => find(admins, ['name', name])
+const getAdminByID = async (id) => {
+  const res = await db.select('admin', { id })
+  return res[0]
+}
+const getAdminByName = async (name) => {
+  const res = await db.select('admin', { name })
+  return res[0]
+}
 
-const getMe = (me) => {
+const getMe = async (me) => {
   if (!me) throw new Error('Login First !')
-  return getAdminByID(me.adminID)
+  const res = await getAdminByID(me.adminID)
+  return res
 }
 
 module.exports = {

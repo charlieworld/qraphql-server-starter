@@ -5,17 +5,20 @@ import token from '../tools/token'
 
 const signUp = async (user) => {
   const { name, key } = user
+  const oldUser = await admin.getAdminByName(name)
+  if (oldUser) throw new Error(`Admin Name:[${name}] Already Exist !`)
   const hashedKey = await k.hash(key)
-  const newAdmin = admin.addAdmin(name, hashedKey)
-  if (!newAdmin) {
+  const newAdminID = await admin.addAdmin(name, hashedKey)
+  if (!newAdminID) {
     throw new Error('Add Admin failed!')
   }
-  return newAdmin
+  const res = await admin.getAdminByID(newAdminID)
+  return res
 }
 
 const login = async (userInput) => {
   const { name, key } = userInput
-  const user = admin.getAdminByName(name)
+  const user = await admin.getAdminByName(name)
   if (!user) throw new Error('Admin Not Exists')
   const passwordIsValid = await k.compare(key, user.key)
   if (!passwordIsValid) throw new Error('Wrong Password')
