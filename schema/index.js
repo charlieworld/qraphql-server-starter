@@ -5,12 +5,15 @@ const scalarTimeStamp = new GraphQLScalarType({
   name: 'TimeStamp',
   description: 'TimeStamp custom scalar type',
   parseValue(value) {
+    console.log('parseValue', value)
     return new Date(value) // value from the client
   },
   serialize(value) {
+    console.log('serialize', value)
     return value.getTime()
   },
   parseLiteral(ast) {
+    console.log('parseLiteral', ast)
     if (ast.kind === Kind.INT) {
       return parseInt(ast.value, 10) // ast value is always in string format
     }
@@ -40,6 +43,7 @@ const typeDefs = gql`
     id: ID!
     name: String
     key: String
+    created_at: TimeStamp
   }
 
   input addAdminInput {
