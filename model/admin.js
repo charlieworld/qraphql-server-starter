@@ -15,6 +15,7 @@ const getAdminByID = async (id) => {
   const res = await db.select('admin', { id })
   return res[0]
 }
+
 const getAdminByName = async (name) => {
   const res = await db.select('admin', { name })
   return res[0]
@@ -26,10 +27,16 @@ const getMe = async (me) => {
   return res
 }
 
+const updateAdminPassword = async (id, key) => {
+  const res = await db.update('admin', { id }, { key })
+  return res
+}
+
 module.exports = {
   getMe,
   getAdmins,
   addAdmin,
   getAdminByID,
   getAdminByName,
+  updateAdminPassword,
 }

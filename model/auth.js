@@ -25,7 +25,19 @@ const login = async (userInput) => {
   return { token: token.forge(user) }
 }
 
+const changePassword = async (data, me) => {
+  if (!me) throw new Error('Login First !')
+  const meData = await admin.getAdminByID(me.adminID)
+  const passwordIsValid = await k.compare(data.oldKey, meData.key)
+  if (!passwordIsValid) throw new Error('Wrong Password')
+  const hashedKey = await k.hash(data.newKey)
+  let res = await admin.updateAdminPassword(meData.id, hashedKey)
+  res = await admin.getAdminByID(res)
+  return res
+}
+
 module.exports = {
   signUp,
   login,
+  changePassword,
 }
